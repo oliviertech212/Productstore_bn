@@ -1,19 +1,33 @@
-# Product Management System
+# Product Management System Backend
 
-A simple and powerful Product Management System built with Node.js, Express, MongoDB, and Prisma.
+A robust Product Management System backend built with Node.js, Express, MongoDB, and Prisma. Powers the  Product Store with authentication, CRUD operations, and real-time statistics.
+
+## Live Demo
+
+- **Backend API**: https://productstore-bn.onrender.com/api
+- **Frontend**: https://productstore-fn.vercel.app/
+- **Repository**: https://github.com/oliviertech212/Productstore_bn
+
+## Demo Admin Credentials
+
+```
+Email: oliviertechadmin@yopmail.com
+Password: admin123
+```
 
 ## Features
 
-- ✅ User Authentication (Register/Login with JWT)
-- ✅ Product CRUD Operations (Admin only)
-- ✅ Public API for Active Products
-- ✅ Advanced Search & Filters
-- ✅ Pagination Support
-- ✅ Product Images (Array of URLs)
-- ✅ Stock Management
-- ✅ Featured Products
-- ✅ SEO Fields (Meta Title, Meta Description)
-- ✅ View Count Tracking
+- User Authentication (Register/Login with JWT)
+- Product CRUD Operations (Admin only)
+- Public API for Active Products
+- Advanced Search & Filters
+- Pagination Support
+- Product Images (Array of URLs)
+- Stock Management
+- Featured Products
+- SEO Fields (Meta Title, Meta Description)
+- View Count Tracking
+- Real-time Statistics
 
 ## Tech Stack
 
@@ -22,46 +36,47 @@ A simple and powerful Product Management System built with Node.js, Express, Mon
 - **Authentication**: JWT (JSON Web Tokens)
 - **Validation**: Zod
 - **Logging**: Winston
+- **Deployment**: Render.com
 
-## Installation
+## Getting Started
 
-1. **Clone the repository**
+### Prerequisites
+- Node.js 18+
+- MongoDB
+- npm or yarn
+
+### Installation
+
 ```bash
-cd product-management-system
-```
-
-2. **Install dependencies**
-```bash
+git clone https://github.com/oliviertech212/Productstore_bn.git
+cd Productstore_bn
 npm install
 ```
 
-3. **Setup environment variables**
+### Environment Setup
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and update:
+Update `.env`:
 ```env
 DATABASE_URL="mongodb://localhost:27017/product_management"
 JWT_SECRET=your-super-secret-jwt-key
+PORT=3000
 ```
 
-4. **Generate Prisma Client**
+### Database Setup
 ```bash
 npm run prisma:generate
-```
-
-5. **Push database schema**
-```bash
 npm run prisma:push
 ```
 
-6. **Start development server**
+### Start Development
 ```bash
 npm run dev
 ```
 
-Server will run on `http://localhost:5000`
+Server runs on `http://localhost:3000`
 
 ## API Endpoints
 
@@ -86,8 +101,8 @@ POST /api/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
-  "password": "password123"
+  "email": "oliviertechadmin@yopmail.com",
+  "password": "admin123"
 }
 ```
 
@@ -106,7 +121,7 @@ Content-Type: application/json
   "price": 999.99,
   "compareAtPrice": 1099.99,
   "stock": 50,
-  "images": ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
+  "images": ["https://example.com/image1.jpg"],
   "thumbnail": "https://example.com/thumbnail.jpg",
   "category": "Electronics",
   "tags": ["smartphone", "apple", "featured"],
@@ -116,19 +131,13 @@ Content-Type: application/json
 
 #### Get All Products (Admin)
 ```http
-GET /api/products?page=1&limit=10&search=iphone&category=Electronics&minPrice=500&maxPrice=1500
-Authorization: Bearer YOUR_JWT_TOKEN
-```
-
-#### Get Product by ID (Admin)
-```http
-GET /api/products/:id
+GET /api/products?page=1&limit=10&search=iphone&category=Electronics
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
 #### Update Product
 ```http
-PATCH /api/products/:id
+PUT /api/products/:id
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 
@@ -145,16 +154,11 @@ DELETE /api/products/:id
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-### Products (Public - No Auth Required)
+### Products (Public)
 
 #### Get Active Products
 ```http
-GET /api/products/public?page=1&limit=10&search=phone&category=Electronics&minPrice=100&maxPrice=2000
-```
-
-#### Get Product by Slug
-```http
-GET /api/products/public/slug/iphone-15-pro
+GET /api/products/public?page=1&limit=10&search=phone
 ```
 
 ## Query Parameters
@@ -164,8 +168,8 @@ GET /api/products/public/slug/iphone-15-pro
 - `category` - Filter by category
 - `minPrice` - Minimum price filter
 - `maxPrice` - Maximum price filter
-- `status` - Filter by status (ACTIVE, INACTIVE, OUT_OF_STOCK, DISCONTINUED)
-- `isFeatured` - Filter featured products (true/false)
+- `status` - Filter by status
+- `isFeatured` - Filter featured products
 
 ### Pagination
 - `page` - Page number (default: 1)
@@ -173,10 +177,10 @@ GET /api/products/public/slug/iphone-15-pro
 
 ## Product Status
 
-- `ACTIVE` - Product is available for purchase
-- `INACTIVE` - Product is hidden from public
-- `OUT_OF_STOCK` - Product is temporarily unavailable
-- `DISCONTINUED` - Product is no longer available
+- `ACTIVE` - Available for purchase
+- `INACTIVE` - Hidden from public
+- `OUT_OF_STOCK` - Temporarily unavailable
+- `DISCONTINUED` - No longer available
 
 ## User Roles
 
@@ -202,52 +206,54 @@ GET /api/products/public/slug/iphone-15-pro
 - viewCount, purchaseCount
 - createdAt, updatedAt
 
+## Deployment
+
+**Live on Render**: https://productstore-bn.onrender.com/api
+
+### Build Commands
+```bash
+npm run build
+npm run prisma:generate
+npm run prisma:push
+npm start
+```
+
 ## Development
 
 ```bash
-# Run in development mode
+# Development mode
 npm run dev
 
 # Build for production
 npm run build
 
-# Start production server
+# Start production
 npm start
 
-# Open Prisma Studio
+# Prisma Studio
 npm run prisma:studio
 ```
-
-## Deployment
-
-1. Set environment variables on your hosting platform
-2. Run `npm run build`
-3. Run `npm run prisma:generate`
-4. Run `npm run prisma:push`
-5. Run `npm start`
 
 ## Project Structure
 
 ```
 product-management-system/
 ├── src/
-│   ├── config/          # Configuration files
+│   ├── config/          # Configuration
 │   ├── controllers/     # Request handlers
 │   ├── lib/            # Prisma client
 │   ├── middlewares/    # Auth, error handling
 │   ├── routes/         # API routes
 │   ├── services/       # Business logic
-│   ├── utils/          # Utility functions
+│   ├── utils/          # Utilities
 │   ├── validators/     # Zod schemas
 │   ├── app.ts          # Express app
-│   └── server.ts       # Server entry point
+│   └── server.ts       # Entry point
 ├── prisma/
 │   └── schema.prisma   # Database schema
-├── logs/               # Application logs
-├── uploads/            # File uploads
 └── package.json
 ```
 
-## License
+---
 
-MIT
+**Built with ❤️ by OlivierTech**

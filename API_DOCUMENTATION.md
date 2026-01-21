@@ -2,7 +2,7 @@
 
 ## Base URL
 ```
-http://localhost:5000/api
+http://localhost:3000/api
 ```
 
 ## Authentication
@@ -12,12 +12,30 @@ All protected endpoints require a JWT token in the Authorization header:
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
+## Default Admin Credentials
+```
+Email: oliviertechadmin@yopmail.com
+Password: admin123
+```
+
 ---
 
 ## 1. Authentication Endpoints
 
 ### 1.1 Register User
 **POST** `/auth/register`
+
+**cURL Example:**
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123",
+    "firstName": "John",
+    "lastName": "Doe"
+  }'
+```
 
 **Request Body:**
 ```json
@@ -50,6 +68,16 @@ Authorization: Bearer YOUR_JWT_TOKEN
 ### 1.2 Login
 **POST** `/auth/login`
 
+**cURL Example:**
+```bash
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "oliviertechadmin@yopmail.com",
+    "password": "admin123"
+  }'
+```
+
 **Request Body:**
 ```json
 {
@@ -64,10 +92,10 @@ Authorization: Bearer YOUR_JWT_TOKEN
   "success": true,
   "data": {
     "user": {
-      "id": "507f1f77bcf86cd799439011",
-      "email": "user@example.com",
-      "firstName": "John",
-      "lastName": "Doe",
+      "id": "6970c0b27061e2a95e064980",
+      "email": "oliviertechadmin@yopmail.com",
+      "firstName": "Olivier",
+      "lastName": "Tech",
       "role": "ADMIN"
     },
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -82,6 +110,26 @@ Authorization: Bearer YOUR_JWT_TOKEN
 ### 2.1 Create Product
 **POST** `/products`
 **Auth Required:** Yes (ADMIN)
+
+**cURL Example:**
+```bash
+curl -X POST http://localhost:3000/api/products \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Samsung Galaxy S24",
+    "description": "Latest Samsung flagship with AI features and amazing camera",
+    "shortDescription": "Premium Android smartphone",
+    "price": 899.99,
+    "compareAtPrice": 999.99,
+    "stock": 75,
+    "images": ["https://via.placeholder.com/400"],
+    "thumbnail": "https://via.placeholder.com/200",
+    "category": "Electronics",
+    "tags": ["smartphone", "samsung", "android"],
+    "isFeatured": true
+  }'
+```
 
 **Request Body:**
 ```json
@@ -128,6 +176,12 @@ Authorization: Bearer YOUR_JWT_TOKEN
 ### 2.2 Get All Products (Admin)
 **GET** `/products`
 **Auth Required:** Yes (ADMIN)
+
+**cURL Example:**
+```bash
+curl -X GET "http://localhost:3000/api/products?page=1&limit=10&search=samsung&category=Electronics" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
 
 **Query Parameters:**
 - `page` (number, default: 1)
@@ -206,6 +260,18 @@ GET /products?page=1&limit=10&search=iphone&category=Electronics&minPrice=500&ma
 **PATCH** `/products/:id`
 **Auth Required:** Yes (ADMIN)
 
+**cURL Example:**
+```bash
+curl -X PATCH http://localhost:3000/api/products/6970c2788f9351bb35227f7c \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "price": 849.99,
+    "stock": 80,
+    "status": "ACTIVE"
+  }'
+```
+
 **Request Body (all fields optional):**
 ```json
 {
@@ -235,6 +301,12 @@ GET /products?page=1&limit=10&search=iphone&category=Electronics&minPrice=500&ma
 **DELETE** `/products/:id`
 **Auth Required:** Yes (ADMIN)
 
+**cURL Example:**
+```bash
+curl -X DELETE http://localhost:3000/api/products/6970c2788f9351bb35227f7c \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
 **Response (200):**
 ```json
 {
@@ -250,6 +322,11 @@ GET /products?page=1&limit=10&search=iphone&category=Electronics&minPrice=500&ma
 ### 3.1 Get Active Products
 **GET** `/products/public`
 **Auth Required:** No
+
+**cURL Example:**
+```bash
+curl -X GET "http://localhost:3000/api/products/public?page=1&limit=10&search=iphone&category=Electronics&minPrice=500&maxPrice=1500"
+```
 
 **Query Parameters:**
 - `page` (number, default: 1)
@@ -299,9 +376,9 @@ GET /products/public?page=1&limit=10&search=phone&category=Electronics
 **GET** `/products/public/slug/:slug`
 **Auth Required:** No
 
-**Example:**
-```
-GET /products/public/slug/iphone-15-pro
+**cURL Example:**
+```bash
+curl -X GET http://localhost:3000/api/products/public/slug/iphone-15-pro
 ```
 
 **Response (200):**

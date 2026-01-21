@@ -4,10 +4,7 @@
 
 A fully functional Product Management System with authentication, CRUD operations, search, filters, and public API.
 
-## 📁 Project Location
-```
-/Users/user/Desktop/oliviertech/projects/FeliTechnology/product-management-system
-```
+
 
 ## 🚀 Features Implemented
 
