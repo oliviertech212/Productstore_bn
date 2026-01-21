@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  password      String
+  firstName     String
+  lastName      String
+  role          UserRole @default(USER)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([email])
+  @@map("users")
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+  DISCONTINUED
+}
+
+model Product {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  
+  name              String
+  slug              String        @unique
+  sku               String        @unique
+  description       String
+  shortDescription  String?
+  
+  price             Float
+  compareAtPrice    Float?
+  costPrice         Float?
+  
+  stock             Int           @default(0)
+  lowStockThreshold Int           @default(10)
+  
+  images            String[]
+  thumbnail         String?
+  
+  category          String?
+  tags              String[]
+  
+  metaTitle         String?
+  metaDescription   String?
+  
+  status            ProductStatus @default(ACTIVE)
+  isFeatured        Boolean       @default(false)
+  
+  viewCount         Int           @default(0)
+  purchaseCount     Int           @default(0)
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  @@index([status])
+  @@index([category])
+  @@index([slug])
+  @@map("products")
+}
