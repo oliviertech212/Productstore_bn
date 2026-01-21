@@ -6,25 +6,24 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding database...');
 
-  // Create Admin User
+
   const hashedPassword = await bcrypt.hash('admin123', 10);
 
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@example.com' },
+    where: { email: 'oliviertechadmin@yopmail.com' },
     update: {},
     create: {
-      email: 'admin@example.com',
+      email: 'oliviertechadmin@yopmail.com',
       password: hashedPassword,
-      firstName: 'Admin',
-      lastName: 'User',
+      firstName: 'Olivier',
+      lastName: 'Tech',
       role: 'ADMIN',
       isActive: true,
     },
   });
 
-  console.log('✅ Admin user created:', admin.email);
+  console.log('Admin user created:', admin.email);
 
-  // Create Sample Products
   const products = [
     {
       name: 'iPhone 15 Pro',
@@ -38,7 +37,6 @@ async function main() {
       category: 'Electronics',
       tags: ['smartphone', 'apple', 'featured'],
       isFeatured: true,
-      status: 'ACTIVE',
     },
     {
       name: 'MacBook Pro 16',
@@ -51,7 +49,6 @@ async function main() {
       category: 'Computers',
       tags: ['laptop', 'apple', 'professional'],
       isFeatured: true,
-      status: 'ACTIVE',
     },
     {
       name: 'AirPods Pro',
@@ -63,7 +60,6 @@ async function main() {
       thumbnail: 'https://via.placeholder.com/200x200?text=AirPods',
       category: 'Audio',
       tags: ['earbuds', 'apple', 'wireless'],
-      status: 'ACTIVE',
     },
   ];
 
@@ -81,10 +77,10 @@ async function main() {
       },
     });
 
-    console.log(`✅ Product created: ${product.name}`);
+    console.log(` Product created: ${product.name}`);
   }
 
-  console.log('✅ Seeding completed!');
+  console.log('Seeding completed!');
 }
 
 main()

@@ -23,7 +23,6 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  @@index([email])
   @@map("users")
 }
 
@@ -69,7 +68,5 @@ model Product {
   updatedAt         DateTime      @updatedAt
   
   @@index([status])
-  @@index([category])
-  @@index([slug])
   @@map("products")
 }

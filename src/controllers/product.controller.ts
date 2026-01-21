@@ -43,6 +43,12 @@ class ProductController {
   async getProductById(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      if (typeof id !== 'string') {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid product ID',
+        });
+      }
       const product = await productService.getProductById(id);
 
       return res.status(200).json({
@@ -61,6 +67,12 @@ class ProductController {
   async getProductBySlug(req: Request, res: Response) {
     try {
       const { slug } = req.params;
+      if (typeof slug !== 'string') {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid product slug',
+        });
+      }
       const product = await productService.getProductBySlug(slug);
 
       return res.status(200).json({
@@ -79,6 +91,12 @@ class ProductController {
   async updateProduct(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      if (typeof id !== 'string') {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid product ID',
+        });
+      }
       const validatedData = updateProductSchema.parse(req.body);
       const product = await productService.updateProduct(id, validatedData);
 
@@ -98,6 +116,12 @@ class ProductController {
   async deleteProduct(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      if (typeof id !== 'string') {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid product ID',
+        });
+      }
       await productService.deleteProduct(id);
 
       return res.status(200).json({
